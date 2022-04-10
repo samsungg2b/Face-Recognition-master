@@ -1,3 +1,4 @@
+# 카메라을 이용한 얼굴 인식후 엑셀 파일에 저장 하는 기능 추가
 import cv2
 import numpy as np
 import face_recognition
