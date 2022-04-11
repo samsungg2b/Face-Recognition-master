@@ -1,4 +1,3 @@
-# 단순 사진 비교 
 import cv2
 import face_recognition
  

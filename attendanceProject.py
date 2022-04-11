@@ -1,4 +1,3 @@
-# 카메라을 이용한 얼굴 인식후 엑셀 파일에 저장 하는 기능 추가
 import cv2
 import numpy as np
 import face_recognition
@@ -6,7 +5,7 @@ import os
 from datetime import datetime
 # from PIL import ImageGrab
  
-path = 'C:\\project\\Face-Recognition-master\\ImagesAttendance'
+path = 'C:\\project\\g2b_auto_project\\Face\\ImagesAttendance'
 images = []
 classNames = []
 myList = os.listdir(path)
@@ -26,7 +25,7 @@ def findEncodings(images):
     return encodeList
  
 def markAttendance(name):
-    with open('C:\\project\\Face-Recognition-master\\Attendance.csv','r+') as f:
+    with open('C:\\project\\g2b_auto_project\\Face\\Attendance.csv','r+') as f:
         myDataList = f.readlines()
         nameList = []
         for line in myDataList:
@@ -60,18 +59,19 @@ while True:
     for encodeFace,faceLoc in zip(encodesCurFrame,facesCurFrame):
         matches = face_recognition.compare_faces(encodeListKnown,encodeFace)
         faceDis = face_recognition.face_distance(encodeListKnown,encodeFace)
-        #print(faceDis)
+        print(faceDis)
         matchIndex = np.argmin(faceDis)
  
         if matches[matchIndex]:
             name = classNames[matchIndex].upper()
-            #print(name)
+            print(name)
+            markAttendance(name)
             y1,x2,y2,x1 = faceLoc
             y1, x2, y2, x1 = y1*4,x2*4,y2*4,x1*4
             cv2.rectangle(img,(x1,y1),(x2,y2),(0,255,0),2)
             cv2.rectangle(img,(x1,y2-35),(x2,y2),(0,255,0),cv2.FILLED)
             cv2.putText(img,name,(x1+6,y2-6),cv2.FONT_HERSHEY_COMPLEX,1,(255,255,255),2)
-            markAttendance(name)
+            
  
     cv2.imshow('Webcam',img)
     cv2.waitKey(1)
